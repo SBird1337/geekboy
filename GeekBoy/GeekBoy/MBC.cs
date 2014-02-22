@@ -1,34 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace GeekBoy
 {
 
-    class MBC3 : IMemoryDevice
+    class Mbc3 : IMemoryDevice
     {
-        private MBC romType;
-        private int selectedRomBank = 1;
-        private int selectedRamBank = 0;
-        private byte[,] ram; //new byte[4, 0x4000];
-        private byte[,] rom;
-        private bool ram_timer_enable = false;
+        private const int BANK_SIZE = 0x4000;
 
-        public MBC3(byte[] fileData, MBC romType, int romSize)
+        private Mbc _romType;
+        private int _selectedRomBank = 1;
+        private int _selectedRamBank = 0;
+        private byte[,] _ram; //new byte[4, 0x4000];
+        private byte[,] _rom;
+        private bool _ramTimerEnable = false;
+
+        public Mbc3(byte[] fileData, Mbc romType, int romSize)
         {
-            this.romType = romType;
-            int bankSize = 0x4000;
-            int romBanks = romSize / bankSize;
-            rom = new byte[romBanks, bankSize];
-            this.ram = this.ReadSave();
+            _romType = romType;
+            int romBanks = romSize / BANK_SIZE;
+            _rom = new byte[romBanks, BANK_SIZE];
+            _ram = ReadSave();
             for (int i = 0, k = 0; i < romBanks; i++)
             {
-                for (int j = 0; j < bankSize; j++, k++)
+                for (int j = 0; j < BANK_SIZE; j++, k++)
                 {
-                    rom[i, j] = fileData[k];
+                    _rom[i, j] = fileData[k];
                 }
             }
             Console.WriteLine("DEBUG: Init OK");
@@ -38,15 +35,15 @@ namespace GeekBoy
         {
             if (address >= 0 && address <= 0x3FFF)
             {
-                return rom[0, address];
+                return _rom[0, address];
             }
-            else if (address >= 0x4000 && address <= 0x7FFF)
+            if (address >= 0x4000 && address <= 0x7FFF)
             {
-                return rom[selectedRomBank, address - 0x4000];
+                return _rom[_selectedRomBank, address - 0x4000];
             }
-            else if (address >= 0xA000 && address <= 0xBFFF)
+            if (address >= 0xA000 && address <= 0xBFFF)
             {
-                if (ram_timer_enable && selectedRamBank < 4) return ram[selectedRamBank, address - 0xA000];
+                if (_ramTimerEnable && _selectedRamBank < 4) return _ram[_selectedRamBank, address - 0xA000];
                 // IMPLEMENT RTC HERE
                 return 0;
             }
@@ -58,15 +55,15 @@ namespace GeekBoy
         {
             if (address >= 0x0 && address <= 0x1FFF)
             {
-                ram_timer_enable = value == 0x0A;
+                _ramTimerEnable = value == 0x0A;
             }
             else if (address >= 0x2000 && address <= 0x3FFF)
             {
-                selectedRomBank = value & 0x7F;
+                _selectedRomBank = value & 0x7F;
             }
             else if (address >= 0x4000 && address <= 0x5FFF)
             {
-                selectedRamBank = value;
+                _selectedRamBank = value;
             }
             else if (address >= 0x6000 && address <= 0x7FFF)
             {
@@ -74,8 +71,8 @@ namespace GeekBoy
             }
             else if (address >= 0xA000 && address <= 0xBFFF)
             {
-                if (ram_timer_enable && selectedRamBank < 4) ram[selectedRamBank, address - 0xA000] = (byte)value;
-                WriteByteToSave(selectedRamBank * 0x4000 + (address - 0xA000), value);
+                if (_ramTimerEnable && _selectedRamBank < 4) _ram[_selectedRamBank, address - 0xA000] = (byte)value;
+                WriteByteToSave(_selectedRamBank * 0x4000 + (address - 0xA000), value);
                 // IMPLEMENT RTC HERE
             }
         }

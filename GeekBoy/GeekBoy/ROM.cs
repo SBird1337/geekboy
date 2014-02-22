@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace GeekBoy
 {
-    enum MBC
+    internal enum Mbc //Enum names are inconsistantly named IMO but since it somehow helps the readability I left them as is
     {
         ROM_NONE = 0x00,
         ROM_MBC1 = 0x01,
@@ -40,23 +36,23 @@ namespace GeekBoy
         ROM_HUC1_RAM_BATT = 0xFF
     }
 
-    class ROM
+    internal class Rom
     {
-        public string Title = string.Empty;
+        public Mbc CartridgeType = Mbc.ROM_NONE;
         public bool Cgb = false;
         public bool CgbOnly = false;
-        public bool SgbSupport = false;
-        public MBC CartridgeType = MBC.ROM_NONE;
-        public int RomSize = 0;
-        public int RamSize = 0;
         public bool Japanese = false;
 
         public IMemoryDevice Memory;
+        public int RamSize = 0;
+        public int RomSize = 0;
+        public bool SgbSupport = false;
+        public string Title = string.Empty;
 
-        public ROM(string path, string save = "")
+        public Rom(string path, string save = "")
         {
             byte[] data = File.ReadAllBytes(path);
-            byte[] save_data;
+            byte[] save_data; //Not used -> redundant
 
             if (save != string.Empty)
                 save_data = File.ReadAllBytes(save);
@@ -65,71 +61,70 @@ namespace GeekBoy
 
             // Read ROM name
             for (int i = 0; i < 16; i++)
-                this.Title += (char)data[0x134 + i];
+                Title += (char) data[0x134 + i];
 
-            Console.WriteLine("       ROMNAME={0}", this.Title);
+            Console.WriteLine("       ROMNAME={0}", Title);
 
             // Game does support CGB features?
-            this.Cgb = data[0x143] == 0x80 || data[0x143] == 0xC0;
+            Cgb = data[0x143] == 0x80 || data[0x143] == 0xC0;
 
             // Is the cartridge CGB only?
-            this.CgbOnly = data[0x143] == 0xC0;
+            CgbOnly = data[0x143] == 0xC0;
 
-            Console.WriteLine("       CGB_SUPPORT={0}", this.Cgb);
-            Console.WriteLine("       CGB_ONLY={0}", this.Cgb);
+            Console.WriteLine("       CGB_SUPPORT={0}", Cgb);
+            Console.WriteLine("       CGB_ONLY={0}", Cgb);
 
             // Does the game support SGB features?
-            this.SgbSupport = data[0x146] == 0x03;
+            SgbSupport = data[0x146] == 0x03;
 
-            Console.WriteLine("       SGB_SUPPORT={0}", this.SgbSupport);
+            Console.WriteLine("       SGB_SUPPORT={0}", SgbSupport);
 
             // Cartridge Type
-            this.CartridgeType = (MBC)data[0x147];
+            CartridgeType = (Mbc) data[0x147];
 
-            Console.WriteLine("       MBC={0}", this.CartridgeType);
+            Console.WriteLine("       MBC={0}", CartridgeType);
 
             // ROM size
-            this.RomSize = 32000 << data[0x148];
+            RomSize = 32000 << data[0x148];
 
-            Console.WriteLine("       ROMSIZE={0}KB", this.RomSize / 1000);
+            Console.WriteLine("       ROMSIZE={0}KB", RomSize/1000);
 
             // RAM size
             switch (data[0x149])
             {
                 case 0x0:
-                    this.RamSize = 0;
+                    RamSize = 0;
                     break;
                 case 0x1:
-                    this.RamSize = 2048;
+                    RamSize = 2048;
                     break;
                 case 0x2:
-                    this.RamSize = 8192;
+                    RamSize = 8192;
                     break;
                 case 0x03:
-                    this.RamSize = 32768;
+                    RamSize = 32768;
                     break;
             }
 
-            Console.WriteLine("       RAMSIZE={0}KB", this.RamSize / 1000);
+            Console.WriteLine("       RAMSIZE={0}KB", RamSize/1000);
 
-            this.Japanese = data[0x14A] == 0x00;
+            Japanese = data[0x14A] == 0x00;
 
-            Console.WriteLine("       JAPANESE={0}", this.Japanese);
+            Console.WriteLine("       JAPANESE={0}", Japanese);
 
             // Init MBC
             Console.WriteLine("DEBUG: Initialize MBC");
-            switch (this.CartridgeType)
+            switch (CartridgeType)
             {
-                case MBC.ROM_MBC3_RAM:
-                case MBC.ROM_MBC3_RAM_BATT:
-                case MBC.ROM_MBC3_TIMER_BATT:
-                case MBC.ROM_MBC3_TIMER_RAM_BATT:
-                    this.Memory = new MBC3(data, this.CartridgeType, this.RomSize);
+                case Mbc.ROM_MBC3_RAM:
+                case Mbc.ROM_MBC3_RAM_BATT:
+                case Mbc.ROM_MBC3_TIMER_BATT:
+                case Mbc.ROM_MBC3_TIMER_RAM_BATT:
+                    Memory = new Mbc3(data, CartridgeType, RomSize);
                     break;
                 default:
-                    throw new Exception("Unsupported cartridge type " + this.CartridgeType);
+                    throw new Exception("Unsupported cartridge type " + CartridgeType);  //May be replaced with internally defined Exception derived object.
             }
         }
-
     }
 }

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GeekBoy
+﻿namespace GeekBoy
 {
     class GbBootUp
     {
-        public void InitCPU(CPU cpu)
+        public void InitCpu(Cpu cpu)
         {
             cpu.A = 0x01;
             cpu.B = 0x00;
@@ -17,13 +11,13 @@ namespace GeekBoy
             cpu.E = 0xD8;
             cpu.H = 0x01;
             cpu.L = 0x4D;
-            cpu.SP = 0xFFFE;
-            cpu.PC = 0x0100;
+            cpu.Sp = 0xFFFE;
+            cpu.Pc = 0x0100;
 
-            cpu.FLAG_Z = true;
-            cpu.FLAG_N = false;
-            cpu.FLAG_HC = true;
-            cpu.FLAG_C = true;
+            cpu.FlagZ = true;
+            cpu.FlagN = false;
+            cpu.FlagHc = true;
+            cpu.FlagC = true;
 
             cpu.Memory.WriteByte(0xFF05, 0x00);
             cpu.Memory.WriteByte(0xFF06, 0x00);

@@ -24,28 +24,28 @@ namespace GeekBoy
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ROM rom;
+            Rom rom;
             MemoryRouter mr;
             GbBootUp boot;
-            CPU cpu;
+            Cpu cpu;
 
             try
             {
                 // Load ROM
-                rom = new ROM(@"I:\rom.gb", "");
+                rom = new Rom(@"I:\rom.gb", "");
 
                 // Setup MemoryRouter
                 mr = new MemoryRouter(rom.Memory);
 
                 // Setup CPU
-                cpu = new CPU(mr);
+                cpu = new Cpu(mr);
 
                 // Give the MemoryRouter access to the CPU;
-                mr.CPU = cpu;
+                mr.Cpu = cpu;
 
                 // BOOT!
                 boot = new GbBootUp();
-                boot.InitCPU(cpu);
+                boot.InitCpu(cpu);
 
                 int time1 = Environment.TickCount;
                 int ops = 0;
@@ -56,11 +56,11 @@ namespace GeekBoy
                     //                   ((cpu.A << 8) + cpu.F).ToString("X"),
                     //                   ((cpu.B << 8) + cpu.C).ToString("X"),
                     //                   ((cpu.D << 8) + cpu.E).ToString("X"),
-                    //                   ((cpu.H << 8) + cpu.L).ToString("X"),
+                    //                   ((cpu.H << 8) + cpu._l).ToString("X"),
                     //                   cpu.PC.ToString("X"),
                     //                   cpu.SP.ToString("X"),
                     //                   cpu.FLAG_Z, cpu.FLAG_N, cpu.FLAG_HC, cpu.FLAG_C);
-                    cpu.ExecuteOP();
+                    cpu.ExecuteOp();
                     ops++;
                 
                     if (Environment.TickCount > time1 + 1000)

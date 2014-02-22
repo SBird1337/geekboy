@@ -16,3 +16,11 @@ I:\visual studio 2013\Projects\GeekBoy\GeekBoy\obj\Debug\GeekBoy.Properties.Reso
 I:\visual studio 2013\Projects\GeekBoy\GeekBoy\obj\Debug\GeekBoy.csproj.GenerateResource.Cache
 I:\visual studio 2013\Projects\GeekBoy\GeekBoy\bin\Debug\GeekBoy.exe
 I:\visual studio 2013\Projects\GeekBoy\GeekBoy\bin\Debug\GeekBoy.pdb
+D:\Users\Philipp\Documents\Gitrepos\geekboy\GeekBoy\GeekBoy\bin\Debug\GeekBoy.exe.config
+D:\Users\Philipp\Documents\Gitrepos\geekboy\GeekBoy\GeekBoy\obj\Debug\GeekBoy.exe
+D:\Users\Philipp\Documents\Gitrepos\geekboy\GeekBoy\GeekBoy\obj\Debug\GeekBoy.pdb
+D:\Users\Philipp\Documents\Gitrepos\geekboy\GeekBoy\GeekBoy\bin\Debug\GeekBoy.exe
+D:\Users\Philipp\Documents\Gitrepos\geekboy\GeekBoy\GeekBoy\bin\Debug\GeekBoy.pdb
+D:\Users\Philipp\Documents\Gitrepos\geekboy\GeekBoy\GeekBoy\obj\Debug\GeekBoy.Form1.resources
+D:\Users\Philipp\Documents\Gitrepos\geekboy\GeekBoy\GeekBoy\obj\Debug\GeekBoy.Properties.Resources.resources
+D:\Users\Philipp\Documents\Gitrepos\geekboy\GeekBoy\GeekBoy\obj\Debug\GeekBoy.csproj.GenerateResource.Cache
