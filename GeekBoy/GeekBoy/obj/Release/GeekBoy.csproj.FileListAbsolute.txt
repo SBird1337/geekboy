@@ -1,0 +1,8 @@
+E:\visual studio 2013\Projects\GeekBoy\GeekBoy\bin\Release\GeekBoy.exe.config
+E:\visual studio 2013\Projects\GeekBoy\GeekBoy\obj\Release\GeekBoy.Form1.resources
+E:\visual studio 2013\Projects\GeekBoy\GeekBoy\obj\Release\GeekBoy.Properties.Resources.resources
+E:\visual studio 2013\Projects\GeekBoy\GeekBoy\obj\Release\GeekBoy.csproj.GenerateResource.Cache
+E:\visual studio 2013\Projects\GeekBoy\GeekBoy\bin\Release\GeekBoy.exe
+E:\visual studio 2013\Projects\GeekBoy\GeekBoy\bin\Release\GeekBoy.pdb
+E:\visual studio 2013\Projects\GeekBoy\GeekBoy\obj\Release\GeekBoy.exe
+E:\visual studio 2013\Projects\GeekBoy\GeekBoy\obj\Release\GeekBoy.pdb
